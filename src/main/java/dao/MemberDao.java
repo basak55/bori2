@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import dto.Member;
 
 
@@ -35,6 +37,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Member member = null;
+		HttpSession session = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
@@ -44,7 +47,7 @@ public class MemberDao {
 				member = new Member(rs.getInt("memberno"),
 						rs.getString("id"), rs.getString("email"),
 						rs.getString("name"));
-			}
+				} 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

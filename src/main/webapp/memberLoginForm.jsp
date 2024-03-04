@@ -1,6 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%
+String id = "";
+Cookie[] cookies = request.getCookies();
+if (cookies != null){
+	for(Cookie cookie : cookies){
+		if (cookie.getName().equals("id")) {
+			id = cookie.getValue();
+			break;
+		}
+	}
+} 
+%>
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
   <head><script src="assets/js/color-modes.js"></script>
@@ -190,9 +201,9 @@
     </div>
 
     <div class="form-check text-start my-3">
-      <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
+      <input class="form-check-input" type="checkbox" name="ck" value="remember-me" id="flexCheckDefault">
       <label class="form-check-label" for="flexCheckDefault">
-        아이디 기억하기 -> 쿠키사용
+        아이디 기억하기
       </label>
     </div>
     <button class="btn btn-dark " type="submit">로그인</button>

@@ -30,7 +30,7 @@ public class BoardDao {
 		}
 	}
 	
-	public ArrayList<Board> selectAll(){ //ID불러오기 질문
+	public ArrayList<Board> selectAll(){
 		ArrayList<Board> list = new ArrayList<>();
 		String sql = "SELECT * FROM member m, board b WHERE m.memberno = b.memberno";
 		PreparedStatement pstmt = null;
@@ -56,9 +56,92 @@ public class BoardDao {
 	
 	public Board selectOne(int num) {
 		Board board = null;
-		String sql = "SELECT * FROM board b, member m WHERE m.memberno = b.memberno AND b.num=?";
+		String sql1 = "SELECT * FROM board b, member m WHERE m.memberno = b.memberno AND b.num=?";
+		String sql2 = "UPDATE board SET hits = hits + 1 WHERE num=?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql1);
+			pstmt.setInt(1, num);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				board = new Board(rs.getInt("num"),
+									rs.getString("title"),
+									rs.getString("content"),
+									rs.getString("regtime"),
+									rs.getInt("hits"),
+									rs.getInt("memberno"),
+									rs.getString("id"));
+			}
+			
+			//히트수 늘리기
+			PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+			pstmt2.setInt(1, num);
+			pstmt2.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return board;
+	}
+	
+	public ArrayList<Board> selectById(String id) {
+		ArrayList<Board> list = new ArrayList<Board>();
+		String sql = "SELECT *"+
+				  "FROM board b JOIN member m USING (memberno)"+
+				  "WHERE m.id=?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				Board board = new Board(rs.getInt("num"), 
+										rs.getString("title"),
+										rs.getString("content"),
+										rs.getString("regtime"),
+										rs.getInt("hits"),
+										rs.getInt("memberno"),
+										rs.getString("id"));
+				list.add(board);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public int insert(String title, String content, String id) {
+		String sql = "INSERT INTO board(NUM, TITLE, CONTENT, REGTIME, HITS, MEMBERNO)"+ 
+				"VALUES(SEQ_board.nextval,?,?,sysdate,0,"+
+				"(SELECT MEMBERNO FROM member WHERE id=?))";
+		try (PreparedStatement pstmt = conn.prepareStatement(sql);)
+		{
+			pstmt.setString(1, title);
+			pstmt.setString(2, content);
+			pstmt.setString(3, id);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int delete(int num) {
+		String sql = "DELETE FROM board WHERE num=?";
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)){
+			pstmt.setInt(1, num);			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public Board updateSelect(int num) {
+		Board board = null;
+		String sql1 = "SELECT * FROM board b, member m WHERE m.memberno = b.memberno AND b.num=?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql1);
 			pstmt.setInt(1, num);
 			ResultSet rs = pstmt.executeQuery();
 			
@@ -77,15 +160,14 @@ public class BoardDao {
 		return board;
 	}
 	
-	public int insert(String title, String content, String id) {
-		String sql = "INSERT INTO board(NUM, TITLE, CONTENT, REGTIME, HITS, MEMBERNO)"+ 
-				"VALUES(SEQ_board.nextval,?,?,sysdate,0,"+
-				"(SELECT MEMBERNO FROM member WHERE id=?))";
-		try (PreparedStatement pstmt = conn.prepareStatement(sql);)
-		{
+	public int update(int num, String title, String content) {
+		String sql = "UPDATE board SET title=?, content=? WHERE num=?";
+		
+		try (PreparedStatement pstmt = conn.prepareStatement(sql))
+		{		
 			pstmt.setString(1, title);
 			pstmt.setString(2, content);
-			pstmt.setString(3, id);
+			pstmt.setInt(3, num);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

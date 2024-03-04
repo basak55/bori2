@@ -10,7 +10,7 @@
 <%
 String memberId = (String)session.getAttribute("memberId");
 if (memberId == null){
-	response.sendRedirect("loginForm.jsp");
+	response.sendRedirect("memberLoginForm.jsp");
 }
 
 BoardDao dao = BoardDao.getInstance();
@@ -74,7 +74,7 @@ for (Board board : list){
 				<tr>
 					<th scope="row"><%=board.getNum() %></th>
 					<td><a href="boardView.jsp?num=<%=board.getNum() %>" data-toggle="tooltip"><%=board.getTitle() %></a></td>
-					<td><%=board.getId() %></td>
+					<td><a href="boardListById.jsp?id=<%=board.getId() %>"><%=board.getId() %></a></td>
 					<td><%=board.getRegtime() %></td>
 					<td><%=board.getHits() %></td>
 				</tr>

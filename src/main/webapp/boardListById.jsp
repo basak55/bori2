@@ -8,10 +8,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-String num = request.getParameter("num");
+String memberId = (String)session.getAttribute("memberId");
+if (memberId == null){
+	response.sendRedirect("memberLoginForm.jsp");
+}
+String id = request.getParameter("id");
 
 BoardDao dao = BoardDao.getInstance();
-Board board = dao.selectOne(Integer.parseInt(num));
+ArrayList<Board> list = dao.selectById(id);
 
 %>
 <!doctype html>
@@ -19,7 +23,7 @@ Board board = dao.selectOne(Integer.parseInt(num));
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>커뮤니티 게시판</title>
+<title>작성글목록</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -36,7 +40,7 @@ Board board = dao.selectOne(Integer.parseInt(num));
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="#">Contact</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="boardList.jsp">Community</a>
@@ -53,25 +57,36 @@ Board board = dao.selectOne(Integer.parseInt(num));
 </nav>
 
 	<div class="container" style="padding-top: 50px">
-		<h1>Community Board</h1>
-
-		<article class="blog-post">
-        	<h2 class="display-5 mb-2 text-primary-emphasis"><%=board.getTitle()%></h2>
-        	<p class="blog-post-meta">작성시간 <%=board.getRegtime() %>  조회수 <%=board.getHits()%></p>
-			<p class="blog-post-meta"><a href="#"><%=board.getId()%></a></p>
-
-       		<p><%=board.getContent()%></p>
-        	<hr>
-
-		<button type="button" class="btn btn-dark" onClick='location.href="boardList.jsp"'>이전으로</button>
+		<h1><%=id %>님 작성글 목록</h1>
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">TITLE</th>
+					<th scope="col">ID</th>
+					<th scope="col">REGTIME</th>					
+					<th scope="col">HITS</th>																	
+				</tr>
+			</thead>
+			<tbody>
+<%
+for (Board board : list){
+%>
+				<tr>
+					<th scope="row"><%=board.getNum() %></th>
+					<td><a href="boardView.jsp?num=<%=board.getNum() %>"><%=board.getTitle() %></a></td>
+					<td><%=board.getId() %></td>
+					<td><%=board.getRegtime() %></td>
+					<td><%=board.getHits() %></td>
+				</tr>
+<%
+}
+%>
+			</tbody>
+		</table>
+		
 		<a class="btn btn-dark float-end" href="boardForm.jsp">
-		<i class="fas fa-edit"></i> 새글</a>
-		
-		<a class="btn btn-dark float-end" href="boardDelete.jsp?num=<%=board.getNum()%>">
-		<i class="fas fa-edit"></i> 삭제</a>
-		
-		<a class="btn btn-dark float-end" href="boardUpdateForm.jsp?num=<%=board.getNum()%>">
-		<i class="fas fa-edit"></i> 수정</a>
+		<i class="fas fa-edit"></i> 글 작성</a>
 	</div>
 	
 	<script
