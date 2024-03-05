@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-로그인에 실패했습니다.
+<script>
+	alert("로그인에 실패했습니다.")
+	location.href = "memberLoginForm.jsp"
+</script>
 </body>
 </html>

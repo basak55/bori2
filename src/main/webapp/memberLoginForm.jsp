@@ -192,7 +192,7 @@ if (cookies != null){
     <h1 class="h3 mb-3 fw-normal">LOGIN</h1>
 
     <div class="form-floating">
-      <input type="text" name="id" class="form-control" id="floatingInput" placeholder="id">
+      <input type="text" name="id" class="form-control" id="floatingInput" placeholder="id" value="<%=id%>">
       <label for="floatingInput">아이디</label>
     </div>
     <div class="form-floating">
@@ -201,7 +201,7 @@ if (cookies != null){
     </div>
 
     <div class="form-check text-start my-3">
-      <input class="form-check-input" type="checkbox" name="ck" value="remember-me" id="flexCheckDefault">
+      <input class="form-check-input" type="checkbox" name="ck" checked id="flexCheckDefault">
       <label class="form-check-label" for="flexCheckDefault">
         아이디 기억하기
       </label>
