@@ -7,7 +7,7 @@
 //로그인 체크
 String memberId = (String)session.getAttribute("memberId");
 if (memberId == null){
-	response.sendRedirect("loginForm.jsp");
+	response.sendRedirect("MemberLoginForm.jsp");
 } 
 %>
 <!doctype html>
@@ -25,7 +25,8 @@ if (memberId == null){
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark border-bottom border-body" data-bs-theme="dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="indexForAdmin.jsp">BORICCORI </a>
+    <a class="navbar-brand" href="indexForAdmin.jsp">
+    	<img src="img/logo.png" alt="" width="150" height="auto" class="d-inline-block align-text-top"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -35,7 +36,7 @@ if (memberId == null){
           <a class="nav-link active" aria-current="page" href="memberList.jsp">Member</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="boardList.jsp">Community</a>
+          <a class="nav-link" href="boardListForAdmin.jsp">Community</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Shop</a>
@@ -47,6 +48,9 @@ if (memberId == null){
     </div>
   </div>
 </nav>
+<div>
 <img src="img/Challenger_Emblem.png" class="img-fluid" alt="admin_main">
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-2OiA9F3kUJ8OVrZ9YGJoPb4O9gFoY03jzkg25pL54vqoff4IFiwBofxfvbq6PwIc" crossorigin="anonymous"></script>
 </body>
 </html>

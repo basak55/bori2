@@ -175,5 +175,10 @@ public class BoardDao {
 		return 0;
 	}
 	
+	public ArrayList<Board> selectForSearch(){
+		ArrayList<Board> list = new ArrayList<>();
+		String sql = "SELECT ";
+		return list;
+	}
 	
 }
