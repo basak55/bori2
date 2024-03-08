@@ -8,6 +8,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+String memberId = (String)session.getAttribute("memberId");
+if (memberId == null){
+	response.sendRedirect("memberLoginForm.jsp");
+}
+
 String num = request.getParameter("num");
 
 BoardDao dao = BoardDao.getInstance();
@@ -25,32 +30,22 @@ Board board = dao.selectOne(Integer.parseInt(num));
 	rel="stylesheet"
 	integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
 	crossorigin="anonymous">
+<style>
+div 
+</style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark border-bottom border-body" data-bs-theme="dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="index.jsp">BORICCORI</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="boardList.jsp">Community</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Mypage</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="logout.jsp">Logout</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<%
+if (!memberId.equals("admin")) {
+%>
+<%@ include file="navbar.jsp" %>
+<%
+} else {
+%>	
+<%@ include file="navbarForAdmin.jsp" %>
+<%
+}
+%>
 
 	<div class="container" style="padding-top: 50px">
 		<h1>Community Board</h1>
@@ -58,7 +53,7 @@ Board board = dao.selectOne(Integer.parseInt(num));
 		<article class="blog-post">
         	<h2 class="display-5 mb-2 text-primary-emphasis"><%=board.getTitle()%></h2>
         	<p class="blog-post-meta">작성시간 <%=board.getRegtime() %>  조회수 <%=board.getHits()%></p>
-			<p class="blog-post-meta"><a href="#"><%=board.getId()%></a></p>
+			<p class="blog-post-meta"><a href="boardListById.jsp" class="link-secondary"><%=board.getId()%></a></p>
 
        		<p><%=board.getContent()%></p>
         	<hr>
@@ -66,13 +61,19 @@ Board board = dao.selectOne(Integer.parseInt(num));
 		<button type="button" class="btn btn-dark" onClick='location.href="boardList.jsp"'>이전으로</button>
 		<a class="btn btn-dark float-end" href="boardForm.jsp">
 		<i class="fas fa-edit"></i> 새글</a>
-		
+
+<%
+if (memberId.equals("admin") || memberId.equals(board.getId())) {
+%>		
 		<a class="btn btn-dark float-end" href="boardDelete.jsp?num=<%=board.getNum()%>">
 		<i class="fas fa-edit"></i> 삭제</a>
 		
 		<a class="btn btn-dark float-end" href="boardUpdateForm.jsp?num=<%=board.getNum()%>">
 		<i class="fas fa-edit"></i> 수정</a>
 	</div>
+<%
+}
+%>
 	
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"

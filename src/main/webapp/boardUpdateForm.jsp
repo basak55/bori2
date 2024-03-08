@@ -3,6 +3,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+String memberId = (String)session.getAttribute("memberId");
+if (memberId == null){
+	response.sendRedirect("memberLoginForm.jsp");
+}
+
 String num = request.getParameter("num");
 
 BoardDao dao = BoardDao.getInstance();
@@ -21,31 +26,18 @@ Board board = dao.updateSelect(Integer.parseInt(num));
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark border-bottom border-body" data-bs-theme="dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="index.jsp">BORICCORI</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="boardList.jsp">Community</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Mypage</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="logout.jsp">Logout</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
 
+<%
+if (!memberId.equals("admin")) {
+%>
+<%@ include file="navbar.jsp" %>
+<%
+} else {
+%>	
+<%@ include file="navbarForAdmin.jsp" %>
+<%
+}
+%>
 
 	<div class="container" style="padding-top: 50px">
 	<h1>글 수정</h1>

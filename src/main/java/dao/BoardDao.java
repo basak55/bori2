@@ -119,7 +119,7 @@ public class BoardDao {
 			pstmt.setString(1, title);
 			pstmt.setString(2, content);
 			pstmt.setString(3, id);
-			pstmt.executeUpdate();
+			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -130,7 +130,7 @@ public class BoardDao {
 		String sql = "DELETE FROM board WHERE num=?";
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)){
 			pstmt.setInt(1, num);			
-			pstmt.executeUpdate();
+			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -168,7 +168,7 @@ public class BoardDao {
 			pstmt.setString(1, title);
 			pstmt.setString(2, content);
 			pstmt.setInt(3, num);
-			pstmt.executeUpdate();
+			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
