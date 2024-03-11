@@ -175,10 +175,46 @@ public class BoardDao {
 		return 0;
 	}
 	
-	public ArrayList<Board> selectForSearch(){
+	public ArrayList<Board> selectForSearch(String title){
 		ArrayList<Board> list = new ArrayList<>();
-		String sql = "SELECT ";
+		String sql = "SELECT * FROM board b JOIN member m USING (memberno)"
+					+ "WHERE title LIKE %?%";
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, title);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Board board = new Board(rs.getInt("num"), 
+						rs.getString("title"),
+						rs.getString("content"),
+						rs.getString("regtime"),
+						rs.getInt("hits"),
+						rs.getInt("memberno"),
+						rs.getString("id"));
+				list.add(board);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return list;
+	}
+	
+	public int selectCount() { //board 테이블의 총 건수를 리턴함
+		String sql = "select count(*) from board";
+		PreparedStatement pstmt;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 	
 }
