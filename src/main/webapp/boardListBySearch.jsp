@@ -4,20 +4,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+response.encodeRedirectURL(url)
 String memberId = (String) session.getAttribute("memberId");
 if (memberId == null) {
 	response.sendRedirect("memberLoginForm.jsp");
 }
+String title = request.getParameter("searchWord");
 
 BoardDao dao = BoardDao.getInstance();
-ArrayList<Board> list = dao.selectAll();
+ArrayList<Board> list = dao.selectForSearch(title);
 %>
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>커뮤니티 게시판</title>
+<title>커뮤니티 게시판 - 검색결과</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -46,6 +48,7 @@ a {
 
 	<div class="container" style="padding-top: 50px">
 		<h1>Community Board</h1>
+		<h3><%=title %>검색 결과</h3>
 		<table class="table table-bordered table-hover">
 			<thead>
 				<tr>
@@ -77,7 +80,7 @@ a {
 		<a class="btn btn-dark float-end" href="boardForm.jsp"> <i
 			class="fas fa-edit"></i> 글 작성
 		</a>
-		<form method="post" action="boardListBySearch.jsp">
+		<form method="post" action="#">
     		<div class="row">
         		<div class="col-lg-4 d-flex">
             		<input type="text" class="form-control mr-2" placeholder="Search" name="searchWord" />
@@ -89,6 +92,7 @@ a {
         		</div>
     		</div>
 		</form>
+	</div>
 
 
 	<script
