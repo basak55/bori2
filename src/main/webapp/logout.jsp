@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%
     session.invalidate();
-	response.sendRedirect("index.jsp");
+//	response.sendRedirect("index.jsp");
 %>
 <!DOCTYPE html>
 <html>
@@ -11,6 +11,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<script>
+	alert("로그아웃 되었습니다.")
+	location.href = "memberLoginForm.jsp"
+</script>
 </body>
 </html>

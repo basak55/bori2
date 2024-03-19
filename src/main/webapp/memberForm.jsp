@@ -15,7 +15,7 @@
 
 <body>
 	<%
-	if (!memberId.equals("admin")) {
+	if (memberId == null || !memberId.equals("admin")) {
 	%>
 	<%@ include file="navbar.jsp"%>
 	<%
@@ -44,7 +44,7 @@
 				<input type="text" name="name" class="form-control" id="nameInput" placeholder="이름">
 			</div>
 			<button class="btn btn-dark float-end">가입</button>
-			<button type="button" class="btn btn-dark" onClick='location.href="memberList.jsp"'>이전으로</button>
+			<button type="button" class="btn btn-dark" onClick='location.href="index.jsp"'>이전으로</button>
 		</form>
 	</div>
 	<script

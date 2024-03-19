@@ -92,6 +92,24 @@ public class MemberDao {
 		return member;
 	}
 	
+	public Member selectById(String id) {
+		Member member = null;
+		String sql = "SELECT * FROM member WHERE id=?";
+		try (PreparedStatement pstmt = conn.prepareStatement(sql))
+		{
+			pstmt.setString(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				member = new Member(rs.getInt("memberno"),
+						rs.getString("id"), rs.getString("email"),
+						rs.getString("name"));						
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return member;
+	}
+	
 	public Member insert(String id, String email, String name) {
 		Member member = null;
 		String sql = "INSERT INTO member(MEMBERNO, ID, EMAIL, NAME) "

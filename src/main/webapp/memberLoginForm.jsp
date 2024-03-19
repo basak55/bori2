@@ -187,7 +187,7 @@ if (cookies != null){
       </label>
     </div>
     <button class="btn btn-dark " type="submit">로그인</button>
-    <button class="btn btn-dark " onClick='location.href="memberForm.jsp"'>회원가입</button>
+    <button type="button" class="btn btn-dark " onClick='location.href="memberForm.jsp"'>회원가입</button>
     <p class="mt-5 mb-3 text-body-secondary">&copy; 2024–2030</p>
   </form>
 </main>

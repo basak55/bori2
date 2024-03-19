@@ -18,7 +18,7 @@
 		class="navbar navbar-expand-lg bg-body-tertiary bg-dark border-bottom border-body"
 		data-bs-theme="dark">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="indexForAdmin.jsp"> <img
+			<a class="navbar-brand" href="index.jsp"> <img
 				src="img/logo1.png" alt="" width="150" height="auto"
 				class="d-inline-block align-text-top"></a>
 			<button class="navbar-toggler" type="button"
@@ -33,7 +33,7 @@
 						aria-current="page" href="#">Contact</a></li>
 					<li class="nav-item"><a class="nav-link" href="boardList.jsp">Community</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="#">Mypage</a></li>
+					<li class="nav-item"><a class="nav-link" href="mypage.jsp">Mypage</a></li>
 					<li class="nav-item"><a class="nav-link" href="logout.jsp">Logout</a>
 					</li>
 				</ul>

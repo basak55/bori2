@@ -4,7 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-response.encodeRedirectURL(url)
+request.setCharacterEncoding("utf-8");
 String memberId = (String) session.getAttribute("memberId");
 if (memberId == null) {
 	response.sendRedirect("memberLoginForm.jsp");

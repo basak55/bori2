@@ -4,6 +4,7 @@
 <%
 	request.setCharacterEncoding("utf-8");
 	
+	String memberId = (String) session.getAttribute("memberId");
 	String memberno = request.getParameter("memberno");
 	String id = request.getParameter("id");
 	String email = request.getParameter("email");
@@ -12,7 +13,10 @@
 	MemberDao dao = MemberDao.getInstance();
 	dao.update(id,email,name,Integer.parseInt(memberno));
 
-	response.sendRedirect("memberList.jsp");
+	if(memberId != null && memberId.equals("admin"))
+		response.sendRedirect("memberList.jsp");
+	else
+		response.sendRedirect("mypage.jsp");
 %>    
 
 <!DOCTYPE html>

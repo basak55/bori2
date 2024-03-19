@@ -23,17 +23,9 @@ if(ck != null && ck.equals("on")){
 
 //로그인 정보 확인
 if(member != null && email.equals(member.getEmail()) && id.equals(member.getId())){ //db정보와 입력정보 확인
-	//관리자 계정
-	if(member.getId().equals("admin")){
-		session.setAttribute("memberId", id);
-		session.setAttribute("memberEmail", email);
-		response.sendRedirect("indexForAdmin.jsp"); //관리자일 경우 회원 관리 페이지
-	//일반 계정
-	} else {
-		session.setAttribute("memberId", id);
-		session.setAttribute("memberEmail", email);
-		response.sendRedirect("index.jsp");
-	} 
+	session.setAttribute("memberId", id);
+	session.setAttribute("memberEmail", email);
+	response.sendRedirect("index.jsp"); 
 } else {
 	response.sendRedirect("loginError.jsp");
 }

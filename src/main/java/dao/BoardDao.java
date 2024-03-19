@@ -178,11 +178,11 @@ public class BoardDao {
 	public ArrayList<Board> selectForSearch(String title){
 		ArrayList<Board> list = new ArrayList<>();
 		String sql = "SELECT * FROM board b JOIN member m USING (memberno)"
-					+ "WHERE title LIKE %?%";
+					+ "WHERE title LIKE ?";
 		
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, title);
+			pstmt.setString(1, "%"+title+"%");
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				Board board = new Board(rs.getInt("num"), 
